@@ -1,21 +1,19 @@
-import java.nio.charset.StandardCharsets;
-import java.security.*;
 import java.util.Scanner;
-import java.lang.Object;
-import javax.xml.bind.DatatypeConverter;
+import javax.crypto.*;
 class Encrypt{
   
-    public static void main(String[] args){
-        System.out.println("enter memsecret");
-        Scanner scanner = new Scanner(System.in);
+ public static void main(String[] args){
+ System.out.println("enter password");
+ Scanner scanner = new Scanner(System.in);
 String password = scanner.nextLine();
 scanner.close();
-
-MessageDigest digest = null;
-digest = MessageDigest.getInstance("SHA-256");
-byte[] hash = digest.digest(password.getBytes(StandardCharsets.UTF_8));
-String encoded = DatatypeConverter.printHexBinary(hash);        
-System.out.println(encoded.toLowerCase());
-    }
-
+System.out.println("enter salt");
+ Scanner Scanner = new Scanner(System.in);
+String salt = Scanner.nextLine();
+Scanner.close();
+SecretKeyFactory factory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA256");
+KeySpec spec = new PBEKeySpec(password, salt, 65536, 256);
+SecretKey tmp = factory.generateSecret(spec);
+SecretKey secret = new SecretKeySpec(tmp.getEncoded(), "AES");
+}
 }
