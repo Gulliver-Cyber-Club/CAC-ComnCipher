@@ -1,21 +1,28 @@
 import java.security.spec.KeySpec;
 import java.util.Scanner;
 import javax.crypto.*;
-import javax.crypto.spec.*;
+import javax.crypto.spec.PBEKeySpec;
+import javax.print.DocFlavor.CHAR_ARRAY;
+import java.io.*;
 class Encrypt{
-  public PBEKeySpec(){}
- public static void main(String[] args){
- System.out.println("enter password");
- Scanner scanner = new Scanner(System.in);
-String password = scanner.nextLine();
-scanner.close();
-System.out.println("enter salt");
- Scanner Scanner = new Scanner(System.in);
-String salt = Scanner.nextLine();
-Scanner.close();
-SecretKeyFactory factory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA256");
-KeySpec spec = new PBEKeySpec(password, salt, 65536, 256);
-SecretKey tmp = factory.generateSecret(spec);
-SecretKey secret = new SecretKeySpec(tmp.getEncoded(), "AES");
-}
+    public static  char[] password(){
+        System.out.println("enter password");
+        Scanner scanner = new Scanner(System.in);
+        char[] password = scanner.next().toCharArray();
+        scanner.close();
+        return password;
+    }
+    public static byte[] salt(){
+        byte[] salt = FileImputStream("saltBytes.txt");
+        Scanner.close();
+        return salt;
+    }
+    public static void main(String[] args){
+        char[] password = password();
+        byte[] salt = salt();
+        SecretKeyFactory factory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA256");
+        KeySpec spec = new PBEKeySpec(password, salt, 65536, 256);
+        SecretKey tmp = factory.generateSecret(spec);
+        SecretKey secret = new SecretKeySpec(tmp.getEncoded(), "AES");
+    }
 }
