@@ -1,5 +1,7 @@
+import java.security.spec.KeySpec;
 import java.util.Scanner;
 import javax.crypto.*;
+import javax.crypto.spec.*;
 class Encrypt{
   
  public static void main(String[] args){
