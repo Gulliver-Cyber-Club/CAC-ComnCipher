@@ -3,7 +3,7 @@ import java.util.Scanner;
 import javax.crypto.*;
 import javax.crypto.spec.*;
 class Encrypt{
-  
+  public PBEKeySpec(){}
  public static void main(String[] args){
  System.out.println("enter password");
  Scanner scanner = new Scanner(System.in);
