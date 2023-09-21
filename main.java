@@ -30,5 +30,6 @@ class Encrypt{
         KeySpec spec = new PBEKeySpec(password, salt, 65536, 256);
         SecretKey tmp = factory.generateSecret(spec);
         SecretKey secret = new SecretKeySpec(tmp.getEncoded(), "AES");
+        System.out.println(secret);
     }
 }
