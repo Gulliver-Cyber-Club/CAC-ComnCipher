@@ -1,35 +1,37 @@
 import java.security.NoSuchAlgorithmException;
-import java.security.spec.InvalidKeySpecException;
-import java.security.spec.KeySpec;
+import java.security.spec.*;
 import java.util.Scanner;
 import javax.crypto.*;
 import javax.crypto.spec.PBEKeySpec;
 import javax.crypto.spec.SecretKeySpec;
-import java.io.*;
+import java.nio.charset.StandardCharsets;
 class Encrypt{
-    public static  char[] password(){
+     Scanner scanner = new Scanner(System.in);
+
+    public static  char[] message(){
+        System.out.println("enter message");
+        char[] message = scanner.nextLine().toCharArray();
+        return message;
+    }
+    public static byte[] password(){
+        Scanner scanner = new Scanner(System.in); 
         System.out.println("enter password");
-        Scanner scanner = new Scanner(System.in);
-        char[] password = scanner.next().toCharArray();
+        String passwordAsString = scanner.nextLine();
+        byte[] password = passwordAsString.getBytes(StandardCharsets.UTF_8);
         scanner.close();
         return password;
-    }
-    public static byte[] salt(){
-        try (FileInputStream FileInputStream = new FileInputStream("saltBytes.txt")) {
-            byte[] salt = FileInputStream.readAllBytes();
-            return salt;
-        } catch (IOException e) {
-            e.printStackTrace();
         }
-        return null;
-    }
+        
     public static void main(String[] args) throws NoSuchAlgorithmException, InvalidKeySpecException{
-        char[] password = password();
-        byte[] salt = salt();
-        SecretKeyFactory factory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA256");
-        KeySpec spec = new PBEKeySpec(password, salt, 65536, 256);
+        char[] message = message();
+        byte[] password = password();
+        try {
+             SecretKeyFactory factory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA256");
+         KeySpec spec = new PBEKeySpec(message, password, 65536, 256);
         SecretKey tmp = factory.generateSecret(spec);
         SecretKey secret = new SecretKeySpec(tmp.getEncoded(), "AES");
         System.out.println(secret);
+    } catch (Exception e) {
+    }
     }
 }
