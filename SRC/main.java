@@ -6,19 +6,22 @@ import javax.crypto.spec.PBEKeySpec;
 import javax.crypto.spec.SecretKeySpec;
 import java.nio.charset.StandardCharsets;
 class Encrypt{
-     Scanner scanner = new Scanner(System.in);
+     
 
     public static  char[] message(){
+        Scanner scanner = new Scanner(System.in);
         System.out.println("enter message");
-        char[] message = scanner.nextLine().toCharArray();
-        return message;
-    }
-    public static byte[] password(){
-        Scanner scanner = new Scanner(System.in); 
-        System.out.println("enter password");
-        String passwordAsString = scanner.nextLine();
-        byte[] password = passwordAsString.getBytes(StandardCharsets.UTF_8);
+        String messageAsString = scanner.nextLine();
+        char[] message = messageAsString.toCharArray();
         scanner.close();
+        return message;
+        }
+    public static byte[] password(){
+        Scanner scannerb = new Scanner(System.in); 
+        System.out.println("enter password");
+        String passwordAsString = scannerb.nextLine();
+        byte[] password = passwordAsString.getBytes(StandardCharsets.UTF_8);
+        scannerb.close();
         return password;
         }
         
