@@ -1,0 +1,13 @@
+{
+    "java.project.referencedLibraries": {
+        "include": [
+            "lib/**/*.jar",
+            "/Users/greggchase/Downloads/commons-codec-1.16.0/**/*.jar"
+        ],
+        "exclude": [
+            "/Users/greggchase/Downloads/commons-codec-1.16.0/commons-codec-1.16.0-javadoc.jar",
+            "/Users/greggchase/Downloads/commons-codec-1.16.0/commons-codec-1.16.0-tests.jar",
+            "/Users/greggchase/Downloads/commons-codec-1.16.0/commons-codec-1.16.0.jar"
+        ]
+    }
+}

@@ -1,40 +1,36 @@
+import java.security.InvalidAlgorithmParameterException;
+import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.*;
 import java.util.Scanner;
 import javax.crypto.*;
-import javax.crypto.spec.PBEKeySpec;
-import javax.crypto.spec.SecretKeySpec;
-import java.nio.charset.StandardCharsets;
-class Encrypt{
-     
+import javax.crypto.spec.IvParameterSpec;
 
-    public static  char[] message(){
+class Encrypt{
+  IvParameterSpec ivParameterSpec;
+  String password;
+  String salt;   
+
+    
+    public  String encrypt () throws InvalidKeySpecException, NoSuchAlgorithmException, InvalidKeyException, NoSuchPaddingException, InvalidAlgorithmParameterException, BadPaddingException, IllegalBlockSizeException {
         Scanner scanner = new Scanner(System.in);
-        System.out.println("enter message");
-        String messageAsString = scanner.nextLine();
-        char[] message = messageAsString.toCharArray();
-        scanner.close();
-        return message;
-        }
-    public static byte[] password(){
-        Scanner scannerb = new Scanner(System.in); 
         System.out.println("enter password");
-        String passwordAsString = scannerb.nextLine();
-        byte[] password = passwordAsString.getBytes(StandardCharsets.UTF_8);
-        scannerb.close();
-        return password;
-        }
-        
-    public static void main(String[] args) throws NoSuchAlgorithmException, InvalidKeySpecException{
-        char[] message = message();
-        byte[] password = password();
-        try {
-             SecretKeyFactory factory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA256");
-         KeySpec spec = new PBEKeySpec(message, password, 65536, 256);
-        SecretKey tmp = factory.generateSecret(spec);
-        SecretKey secret = new SecretKeySpec(tmp.getEncoded(), "AES");
-        System.out.println(secret);
-    } catch (Exception e) {
+        password = scanner.nextLine();
+        System.out.println("enter salt");
+        salt = scanner.nextLine();
+        System.out.println("enter message");
+        String plainText = scanner.nextLine();
+        scanner.close();
+        ivParameterSpec = AESUtil.generateIv();
+        SecretKey key = AESUtil.getKeyFromPassword(password,salt);
+        String cipherText = AESUtil.encryptPasswordBased(plainText, key, ivParameterSpec);
+      return cipherText;
     }
+      public String decrypt(String cipherText) throws NoSuchAlgorithmException, InvalidKeySpecException, InvalidKeyException, NoSuchPaddingException, InvalidAlgorithmParameterException, BadPaddingException, IllegalBlockSizeException{
+
+        SecretKey key = AESUtil.getKeyFromPassword(password,salt);
+        String decryptedCipherText = AESUtil.decryptPasswordBased(
+          cipherText, key, ivParameterSpec);
+          return decryptedCipherText;
     }
-}
+  }
